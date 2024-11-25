@@ -20,7 +20,7 @@ export class ListargestioneventosComponent implements OnInit {
   eventos: MatTableDataSource<GestionEventosEve> = new MatTableDataSource();
   displayedColumns: string[] = ['idEvento', 'nombre', 'descripcion', 'estado', 'fechaCreacion','acciones' ]; // Columnas visibles
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Referencia al paginador
-   eventosData:GestionEventosEve[]=[];
+  eventosData:GestionEventosEve[]=[];
   pageSize: number = 5;
   pageSizeOptions: number[] = [5, 10, 20]; // Opciones de tamaño de página
   cantidadregistro:number= this.eventosData.length;
