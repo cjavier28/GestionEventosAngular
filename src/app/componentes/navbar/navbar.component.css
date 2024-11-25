@@ -1,0 +1,23 @@
+/* Para dispositivos pequeños (como celulares) */
+@media (max-width: 991px) {
+  .navbar-nav {
+    flex-direction: column !important;  /* El menú será vertical */
+    align-items: flex-start;
+  }
+}
+
+/* Para dispositivos en modo landscape */
+@media (orientation: landscape) {
+  .navbar-nav {
+    flex-direction: column !important;  /* El menú será vertical */
+    align-items: flex-start;
+  }
+}
+
+/* Para dispositivos grandes, el menú sigue siendo horizontal */
+@media (min-width: 992px) {
+  .navbar-nav {
+    flex-direction: row !important;  /* El menú será horizontal */
+    align-items: center;
+  }
+}
