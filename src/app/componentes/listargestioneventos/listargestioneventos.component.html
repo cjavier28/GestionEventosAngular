@@ -1,11 +1,11 @@
-<div class="container-fluid col-lg-8 col-sm-12">
+<div class="container-fluid col-lg-8 col-sm-12 p-2">
 
-<div class="card text-center">
-  <h1>Listar Eventos</h1>
-</div>
+  <div class="card bg-dark text-white text-center">
+    <h2>Listar Evento</h2>
+  </div>
 <!-- Contenedor de la tabla con scroll horizontal -->
 <div class="contenedor" >
-  <table mat-table [dataSource]="eventos" class="mat-elevation-z8 col-8">
+  <table mat-table [dataSource]="eventos" class="mat-elevation-z8 col-8 tabla">
     <!-- Columna ID Evento -->
     <ng-container matColumnDef="idEvento">
       <th mat-header-cell *matHeaderCellDef> ID </th>

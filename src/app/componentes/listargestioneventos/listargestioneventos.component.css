@@ -1,7 +1,12 @@
 
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+.tabla{
+  border-color: gray;
+  border-style:groove  ;
 
+  border-width: 2px;
+}
 
 /* Para dispositivos pequeños (como celulares) */
 @media (max-width: 991px) {

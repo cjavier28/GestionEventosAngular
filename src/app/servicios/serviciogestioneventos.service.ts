@@ -1,3 +1,5 @@
+import { CrearEventoRequest } from './../swagger/gestioneventos/models/crear-evento-request';
+import { Evento } from './../app/interfaces/interfaces';
 import { GestionEventosEve } from '../swagger/gestioneventos/models';
 import { ServicioGestionEventosService } from '../swagger/gestioneventos/services';
 import { environment } from './../../environments/environment';
@@ -14,7 +16,10 @@ export class ServiciogestioneventosService {
   }
 
 
-
+/**
+ *
+ * @returns
+ */
   async ObtenerGestionEventos(){
     return new Promise<Array<GestionEventosEve>>(
       (resolve)=>{
@@ -34,4 +39,27 @@ export class ServiciogestioneventosService {
   }
 
 
+
+/**
+ *
+ * @param crearEventoRequest
+ * @returns
+ */
+  async InsertarEvento (crearEventoRequest:CrearEventoRequest){
+    return new Promise(
+      (resolve)=>{
+        this.serviciogestion.rootUrl = environment.urlserviciogestioneventos;
+        this.serviciogestion
+         .apiServicioGestionEventosCrearPost({body: crearEventoRequest})
+         .subscribe({
+          next:(success)=>{
+            resolve(success);
+          },
+          error:(e)=>{
+            resolve(e.console.error);
+          }
+         })
+      }
+    )
+  }
 }
