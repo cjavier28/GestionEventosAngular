@@ -1,0 +1,35 @@
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+
+/* Para dispositivos pequeños (como celulares) */
+@media (max-width: 991px) {
+  .navbar-nav {
+    flex-direction: column !important;  /* El menú será vertical */
+    align-items: flex-start;
+  }
+  .btn-primary{
+    width: 100px;
+    margin-bottom: 2px;
+  }
+
+}
+.contenedor{
+  overflow-x: auto;
+}
+
+
+@media (orientation: landscape) {
+  .navbar-nav {
+    flex-direction: column !important;  /* El menú será vertical */
+    align-items: flex-start;
+    width: 100px;
+    margin-top: 2px;
+
+  }
+  .btn-primary{
+    width: 100px;
+    margin-left: 2px;
+  }
+}
