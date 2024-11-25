@@ -1,0 +1,35 @@
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+  <div class="card contenedor_card" >
+    <div class="card-body">
+      <h5 class="card-title text-center">Iniciar sesión</h5>
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <div class="mb-3 d-flex flex-column">
+          <img class ="imglogin" alt="" src="https://www.lideresvisioncolombia.com.co/wp-content/uploads/2021/06/Logo-Inter-Rapidisimo-Vv-400x431-1.png">
+          <label for="usuario" class="form-label">Usuario</label>
+          <input
+            type="text"
+            id="usuario"
+            class="form-control"
+            formControlName="usuario"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="clave" class="form-label">Clave</label>
+          <input
+            type="password"
+            id="clave"
+            class="form-control"
+            formControlName="clave"
+            required
+          />
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">
+            Iniciar sesión
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 .tabla{
-  border-color: gray;
+  border-color: rgb(241, 226, 226);
   border-style:groove  ;
 
   border-width: 2px;
