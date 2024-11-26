@@ -10,16 +10,19 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CarruselComponent } from "../../carrusel/carrusel.component";
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-listargestioneventos',
   standalone:true,
-  imports: [RouterModule, MatTableModule, CommonModule, MatCheckboxModule, MatPaginatorModule, CarruselComponent,MatSnackBarModule  ],
+  imports: [MatSortModule, RouterModule, FormsModule, MatTableModule, CommonModule, MatCheckboxModule, MatPaginatorModule, CarruselComponent, MatSnackBarModule],
+
   templateUrl: './listargestioneventos.component.html',
   styleUrls: ['./listargestioneventos.component.css']
 })
 export class ListargestioneventosComponent implements OnInit {
-
+  @ViewChild(MatSort) sort!: MatSort;
   eventos: MatTableDataSource<GestionEventosEve> = new MatTableDataSource();
   displayedColumns: string[] = ['idEvento', 'nombre', 'descripcion', 'estado', 'fechaCreacion','acciones' ]; // Columnas visibles
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Referencia al paginador
@@ -35,6 +38,7 @@ export class ListargestioneventosComponent implements OnInit {
       this.eventos.data = this.eventosData;
       this.eventos.paginator = this.paginator; // Asocia el paginator al dataSource
       this.cantidadregistro= this.eventosData.length;
+      this.eventos.sort = this.sort;  // Vincula MatSort a tu MatTableDataSource
     } catch (error) {
       console.error('Error al cargar los eventos', error);
     }
@@ -58,9 +62,10 @@ export class ListargestioneventosComponent implements OnInit {
     });
   }
 
-
   onPaginateChange(event: any) {
-    console.log(event);
+    // Manejo de la paginación, si es necesario
+    console.log('Pagina actual:', event.pageIndex);
+    console.log('Tamaño de la página:', event.pageSize);
   }
 
   editarEvento(evento: GestionEventosEve): void {
@@ -115,5 +120,10 @@ export class ListargestioneventosComponent implements OnInit {
       console.log('Paginador asociado:', this.paginator);
     }
   }
+ // Método para actualizar el pageSize desde el dropdown
+ onPageSizeChange(event: any): void {
+  this.pageSize = event.target.value;  // Actualiza el tamaño de la página cuando el usuario seleccione una opción
+}
 
 }
+
