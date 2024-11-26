@@ -1,0 +1,11 @@
+
+@if(data.modal==1){
+  <div class="card container-fluid" >
+    <div class="card-body">
+      <h5 class="card-title">Guardado Exitoso</h5>
+      <p class="card-text">{{data.mensaje}}</p>
+      <button mat-button class="btn btn-primary" (click)="closeModal()">Cerrar</button>
+    </div>
+  </div>
+
+}

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CarruselComponent } from '../../carrusel/carrusel.component';
 
 @Component({
   selector: 'app-loginusuario',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,CarruselComponent],
   templateUrl: './loginusuario.component.html',
   styleUrl: './loginusuario.component.css'
 })

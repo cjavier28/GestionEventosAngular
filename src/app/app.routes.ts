@@ -7,7 +7,5 @@ export const routes: Routes = [
 
   { path: '', component: LoginusuarioComponent },
   { path: 'inscribir', component: InscribireventoComponent },
-  { path: 'listar', component: ListargestioneventosComponent },
-
-  // Otras rutas de tu aplicación
+  { path: 'listar', component: ListargestioneventosComponent }
 ];
