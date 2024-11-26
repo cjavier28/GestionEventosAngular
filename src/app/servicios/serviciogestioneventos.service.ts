@@ -111,4 +111,30 @@ async EliminarEventoPorId(eliminarEventoRequest: EliminarEventoRequest): Promise
       }
     )
   }
+
+
+
+
+/**
+ *
+ * @param crearEventoRequest
+ * @returns
+ */
+async EditarEvento (crearEventoRequest:CrearEventoRequest){
+  return new Promise(
+    (resolve)=>{
+      this.serviciogestion.rootUrl = environment.urlserviciogestioneventos;
+      this.serviciogestion
+       .apiServicioGestionEventosEditarPut({body: crearEventoRequest})
+       .subscribe({
+        next:(success)=>{
+          resolve(success);
+        },
+        error:(e)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
 }
