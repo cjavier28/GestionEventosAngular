@@ -4,11 +4,12 @@ import { Evento } from '../../app/interfaces/interfaces';
 import { ServiciogestioneventosService } from '../../servicios/serviciogestioneventos.service';
 import { CrearEventoRequest } from '../../swagger/gestioneventos/models';
 import { CommonModule } from '@angular/common';
+import { CarruselComponent } from '../../carrusel/carrusel.component';
 
 @Component({
   selector: 'app-inscribirevento',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule,CarruselComponent],
   templateUrl: './inscribirevento.component.html',
   styleUrl: './inscribirevento.component.css'
 })

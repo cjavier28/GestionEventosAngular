@@ -1,4 +1,6 @@
 .imglogin{
   object-fit: scale-down;
-  height: 100px!important;
+  height: 300px!important;
+  padding: 20px;
+  width: 400px;
 }

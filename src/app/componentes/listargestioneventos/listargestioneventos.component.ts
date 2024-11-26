@@ -7,12 +7,13 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { CarruselComponent } from "../../carrusel/carrusel.component";
 
 
 @Component({
   selector: 'app-listargestioneventos',
   standalone:true,
-  imports:[RouterModule,MatTableModule,CommonModule,MatCheckboxModule,MatPaginatorModule],
+  imports: [RouterModule, MatTableModule, CommonModule, MatCheckboxModule, MatPaginatorModule, CarruselComponent],
   templateUrl: './listargestioneventos.component.html',
   styleUrls: ['./listargestioneventos.component.css']
 })
