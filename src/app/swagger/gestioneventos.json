@@ -151,6 +151,37 @@
         }
       }
     },
+    "/api/ServicioGestionEventos/login": {
+      "post": {
+        "tags": [
+          "ServicioGestionEventos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/ServicioGestionEventos/{id}": {
       "get": {
         "tags": [
@@ -438,6 +469,20 @@
           },
           "idUsuarioNavigation": {
             "$ref": "#/components/schemas/UsuariosDatosGenerales"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "clave": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

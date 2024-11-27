@@ -9,4 +9,5 @@ export { GestionEventosEve } from './models/gestion-eventos-eve';
 export { HistorialModificacionEve } from './models/historial-modificacion-eve';
 export { InscribirEventoRequest } from './models/inscribir-evento-request';
 export { InscripcionesEvt } from './models/inscripciones-evt';
+export { LoginRequest } from './models/login-request';
 export { UsuariosDatosGenerales } from './models/usuarios-datos-generales';

@@ -23,6 +23,8 @@ import { apiServicioGestionEventosInscribirPost } from '../fn/servicio-gestion-e
 import { ApiServicioGestionEventosInscribirPost$Params } from '../fn/servicio-gestion-eventos/api-servicio-gestion-eventos-inscribir-post';
 import { apiServicioGestionEventosListarEventosGet } from '../fn/servicio-gestion-eventos/api-servicio-gestion-eventos-listar-eventos-get';
 import { ApiServicioGestionEventosListarEventosGet$Params } from '../fn/servicio-gestion-eventos/api-servicio-gestion-eventos-listar-eventos-get';
+import { apiServicioGestionEventosLoginPost } from '../fn/servicio-gestion-eventos/api-servicio-gestion-eventos-login-post';
+import { ApiServicioGestionEventosLoginPost$Params } from '../fn/servicio-gestion-eventos/api-servicio-gestion-eventos-login-post';
 import { GestionEventosEve } from '../models/gestion-eventos-eve';
 
 @Injectable({ providedIn: 'root' })
@@ -153,6 +155,31 @@ export class ServicioGestionEventosService extends BaseService {
   apiServicioGestionEventosListarEventosGet(params?: ApiServicioGestionEventosListarEventosGet$Params, context?: HttpContext): Observable<Array<GestionEventosEve>> {
     return this.apiServicioGestionEventosListarEventosGet$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<GestionEventosEve>>): Array<GestionEventosEve> => r.body)
+    );
+  }
+
+  /** Path part for operation `apiServicioGestionEventosLoginPost()` */
+  static readonly ApiServicioGestionEventosLoginPostPath = '/api/ServicioGestionEventos/login';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiServicioGestionEventosLoginPost()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiServicioGestionEventosLoginPost$Response(params?: ApiServicioGestionEventosLoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return apiServicioGestionEventosLoginPost(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiServicioGestionEventosLoginPost$Response()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiServicioGestionEventosLoginPost(params?: ApiServicioGestionEventosLoginPost$Params, context?: HttpContext): Observable<void> {
+    return this.apiServicioGestionEventosLoginPost$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
