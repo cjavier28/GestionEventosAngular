@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { ServicioGestionEventosService } from './services/servicio-gestion-eventos.service';
+import { UserService } from './services/user.service';
 
 /**
  * Module that provides all services and configuration.
@@ -17,6 +18,7 @@ import { ServicioGestionEventosService } from './services/servicio-gestion-event
   declarations: [],
   providers: [
     ServicioGestionEventosService,
+    UserService,
     ApiConfiguration
   ],
 })

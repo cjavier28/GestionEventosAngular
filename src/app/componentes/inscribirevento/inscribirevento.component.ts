@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Evento } from '../../app/interfaces/interfaces';
 import { ServiciogestioneventosService } from '../../servicios/serviciogestioneventos.service';
-import { CrearEventoRequest, EliminarEventoRequest } from '../../swagger/gestioneventos/models';
+import {EditarEventoRequest, CrearEventoRequest, EliminarEventoRequest } from '../../swagger/gestioneventos/models';
 import { CommonModule } from '@angular/common';
 import { CarruselComponent } from '../../carrusel/carrusel.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -22,8 +22,8 @@ export class InscribireventoComponent {
 
   eventoId: number | null = null;
   eventoForm: FormGroup;
-
-
+  esinsertar =true;
+  idevento:number = 0;
   constructor(private fb: FormBuilder, private gestionEventosService: ServiciogestioneventosService,public dialog: MatDialog,private router: Router,  private route: ActivatedRoute ) {
     // Inicializamos el formulario con validaciones
     this.eventoForm = this.fb.group({
@@ -40,6 +40,8 @@ export class InscribireventoComponent {
 
  async cargarEvento(id: any): Promise<void> {
   try {
+    this.esinsertar = false;
+    this.idevento = id;
     const evento = await this.gestionEventosService.ObtenerGestionEventosPorId(id);
     this.eventoForm.patchValue({
       nombre: evento.nombre,
@@ -47,8 +49,13 @@ export class InscribireventoComponent {
       fechaHora: evento.fechaHora,
       ubicacion: evento.ubicacion,
       capacidadMaxima: evento.capacidadMaxima,
-      idUsuario: evento.idUsuario
+      idUsuario:Number(localStorage.getItem("idusuario"))
     });
+
+    this.eventoForm.get('nombre')?.disable();
+    this.eventoForm.get('descripcion')?.disable();
+    this.eventoForm.get('idUsuario')?.disable();
+
   } catch (error) {
     console.error('Error al cargar el evento:', error);
   }
@@ -61,7 +68,9 @@ ngOnInit(): void {
     const idEvento = queryParams['idEvento'];
     const idUsuario = queryParams['idUsuario'];
     const proceso = queryParams['proceso'];
-
+    this.eventoForm.get('idUsuario')?.patchValue(localStorage.getItem("idusuario")?.toString())
+    this.idevento = idEvento;
+    this.eventoForm.get('idUsuario')?.disable();
     console.log(`ID Evento: ${idEvento}, ID Usuario: ${idUsuario}, Proceso: ${proceso}`);
 
 
@@ -87,11 +96,32 @@ ngOnInit(): void {
 
 
     let crearevento:CrearEventoRequest=nuevoEvento;
-    await this.gestionEventosService.InsertarEvento(crearevento);
-    this.dialog.open(ModalgeneralComponent, {
+    if(this.esinsertar){
+     let  respuestainsertar = await this.gestionEventosService.InsertarEvento(crearevento);
+
+     this.dialog.open(ModalgeneralComponent, {
       width: '400px', // Tamaño del modal
       data:{ mensaje: '¡Guardado exitosamente!', modal:1 }
     });
+    }else{
+
+      let valores = {
+        capacidadMaxima:crearevento.capacidadMaxima,
+        fechaHora:crearevento.fechaHora,
+        idEvento:this.idevento,
+        idUsuario:crearevento.idUsuario,
+        ubicacion:crearevento.ubicacion
+      };
+
+     let actualizar = await this.gestionEventosService.EditarEvento(valores);
+
+
+     this.dialog.open(ModalgeneralComponent, {
+      width: '400px', // Tamaño del modal
+      data:{ mensaje: 'Editado exitosamente!', modal:1 }
+    });
+    }
+
     this.eventoForm.reset();
     this.router.navigate(['/listar']);
 

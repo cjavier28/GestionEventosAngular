@@ -1,17 +1,19 @@
+
 import { CrearEventoRequest } from './../swagger/gestioneventos/models/crear-evento-request';
 import { Evento } from './../app/interfaces/interfaces';
-import { EliminarEventoRequest, GestionEventosEve } from '../swagger/gestioneventos/models';
-import { ServicioGestionEventosService } from '../swagger/gestioneventos/services';
+import { EliminarEventoRequest, GestionEventosEve, InformacionEvento, InscribirEventoRequest, UsuarioConsulta, UsuarioGestionEventos } from '../swagger/gestioneventos/models';
+import { ServicioGestionEventosService, UserService } from '../swagger/gestioneventos/services';
 import { environment } from './../../environments/environment';
 
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiciogestioneventosService {
 
-  constructor(private serviciogestion:ServicioGestionEventosService) {
+  constructor(private serviciogestion:ServicioGestionEventosService, private userService:UserService) {
 
   }
 
@@ -38,6 +40,27 @@ export class ServiciogestioneventosService {
     )
   }
 
+/**
+ *
+ * @returns
+ */
+async ObtenerInformacionEvento(idusuario:number){
+  return new Promise<Array<InformacionEvento>>(
+    (resolve)=>{
+      this.serviciogestion.rootUrl = environment.urlserviciogestioneventos;
+      this.serviciogestion
+       .apiServicioGestionEventosObtenerPost({body:idusuario})
+       .subscribe({
+        next:(success:Array<InformacionEvento>)=>{
+          resolve(success);
+        },
+        error:(e)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
 
 
 /**
@@ -89,8 +112,35 @@ async EliminarEventoPorId(eliminarEventoRequest: EliminarEventoRequest): Promise
 }
 
 
+
+
 /**
- *
+ * Inscribe a usuario a un evento
+ * @param inscribirEventoRequest
+ * @returns
+ */
+async InscribirseEvento(inscribirEventoRequest: InscribirEventoRequest): Promise<number> {
+  return new Promise((resolve, reject) => {
+    this.serviciogestion.rootUrl = environment.urlserviciogestioneventos;
+
+    this.serviciogestion.apiServicioGestionEventosInscribirPost({
+      body: inscribirEventoRequest
+    }).subscribe({
+      next: (success:number) => {
+        resolve(success);
+      },
+      error: (e) => {
+        console.error(e);
+        reject(e);
+      }
+    });
+  });
+}
+
+
+
+/**
+ * Inserta Evento
  * @param crearEventoRequest
  * @returns
  */
@@ -111,4 +161,103 @@ async EliminarEventoPorId(eliminarEventoRequest: EliminarEventoRequest): Promise
       }
     )
   }
+
+
+
+
+/**
+ * Crea evento
+ * @param crearEventoRequest
+ * @returns
+ */
+async EditarEvento (crearEventoRequest:CrearEventoRequest){
+  return new Promise(
+    (resolve)=>{
+      this.serviciogestion.rootUrl = environment.urlserviciogestioneventos;
+      this.serviciogestion
+       .apiServicioGestionEventosEditarPut({body: crearEventoRequest})
+       .subscribe({
+        next:(success)=>{
+          resolve(success);
+        },
+        error:(e)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
+
+/**
+ * Valida Token
+ * @param crearEventoRequest
+ * @returns
+ */
+async ValidarToken (token:string){
+  return new Promise(
+    (resolve)=>{
+      this.userService.rootUrl = environment.urlserviciogestioneventos;
+      this.userService
+       .apiUserValidarTokenGet()
+       .subscribe({
+        next:(success:boolean)=>{
+          resolve(success);
+        },
+        error:(e:any)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
+
+
+/**
+ *Registra  usuario
+ * @param crearEventoRequest
+ * @returns
+ */
+async RegistrarUsuario (usuarioGestionEventos:UsuarioGestionEventos){
+  return new Promise(
+    (resolve)=>{
+      this.userService.rootUrl = environment.urlserviciogestioneventos;
+      this.userService
+       .apiUserRegistrarusuarioPost({body: usuarioGestionEventos})
+       .subscribe({
+        next:(success:number)=>{
+          resolve(success);
+        },
+        error:(e)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
+
+
+/**
+ * Valida usuario
+ * @param crearEventoRequest
+ * @returns
+ */
+async ValidarUsuario (usuarioConsulta:UsuarioConsulta){
+  return new Promise(
+    (resolve)=>{
+      this.userService.rootUrl = environment.urlserviciogestioneventos;
+      this.userService
+       .apiUserLoginUsuarioPost({body: usuarioConsulta})
+       .subscribe({
+        next:(success)=>{
+          resolve(success);
+        },
+        error:(e)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
+
+
 }
