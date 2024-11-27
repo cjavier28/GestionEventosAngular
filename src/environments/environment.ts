@@ -1,5 +1,7 @@
 export const environment = {
   produccion:false,
-  urlserviciogestioneventos:"https://localhost:7016"
+  //urlserviciogestioneventos:"http://localhost:8081/controlworks"
+    urlserviciogestioneventos:"https://localhost:7016"
+
 }
 

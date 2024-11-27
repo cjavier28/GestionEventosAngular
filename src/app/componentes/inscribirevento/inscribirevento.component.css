@@ -3,7 +3,7 @@
 }
 
 .container-props {
-  background-color: rgb(255 255 255 / 64%);
+  background-color: rgba(255, 255, 255, 0.64);
   border-radius: 12px; /* Bordes redondeados */
   padding: 20px; /* Espaciado interno */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */

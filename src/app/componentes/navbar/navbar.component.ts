@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthServiceService } from '../../servicios/auth-service.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule,MatIconModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -21,7 +22,9 @@ export class NavbarComponent {
     });
   }
 
+
   logout() {
-    this.authService.logout();
+    window.location.replace("http://localhost:4200/");
+
   }
 }

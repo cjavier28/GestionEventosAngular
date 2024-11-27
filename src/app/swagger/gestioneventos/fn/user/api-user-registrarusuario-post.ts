@@ -8,14 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { InscribirEventoRequest } from '../../models/inscribir-evento-request';
+import { UsuarioGestionEventos } from '../../models/usuario-gestion-eventos';
 
-export interface ApiServicioGestionEventosInscribirPost$Params {
-      body?: InscribirEventoRequest
+export interface ApiUserRegistrarusuarioPost$Params {
+      body?: UsuarioGestionEventos
 }
 
-export function apiServicioGestionEventosInscribirPost(http: HttpClient, rootUrl: string, params?: ApiServicioGestionEventosInscribirPost$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-  const rb = new RequestBuilder(rootUrl, apiServicioGestionEventosInscribirPost.PATH, 'post');
+export function apiUserRegistrarusuarioPost(http: HttpClient, rootUrl: string, params?: ApiUserRegistrarusuarioPost$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+  const rb = new RequestBuilder(rootUrl, apiUserRegistrarusuarioPost.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/*+json');
   }
@@ -30,4 +30,4 @@ export function apiServicioGestionEventosInscribirPost(http: HttpClient, rootUrl
   );
 }
 
-apiServicioGestionEventosInscribirPost.PATH = '/api/ServicioGestionEventos/inscribir';
+apiUserRegistrarusuarioPost.PATH = '/api/User/registrarusuario';

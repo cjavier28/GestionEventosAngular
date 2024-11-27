@@ -8,15 +8,15 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="/listar">Listar</a>
+                  <a class="nav-link active" aria-current="page" routerLink="/listar">Listar eventos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="/inscribir">Inscribir</a>
+                  <a class="nav-link active" aria-current="page" routerLink="/inscribir">Crear eventos </a>
                 </li>
             </ul>
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-                <button class="btn btn-outline-light" type="button">Buscar</button>
+
+                <button class="btn btn-outline-light" (click)="logout()" type="button">Cerrar Sesión</button>
             </form>
         </div>
     </div>

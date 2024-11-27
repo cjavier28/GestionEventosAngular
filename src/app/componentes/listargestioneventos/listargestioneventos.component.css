@@ -3,7 +3,11 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 
-.tabla{
+.container-properties{
+  background-color: rgba(255, 255, 255, 0.896)!important;
+  border-radius: 12px;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.64);
 
 }
 
@@ -36,4 +40,14 @@
     width: 100px;
     margin-left: 2px;
   }
+}
+
+.transparent-padding {
+  background-color: rgba(255, 255, 255, 0.093);  /* Fondo normal */
+  padding: 10px; /* El espacio alrededor del contenido */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño de la div */
+}
+
+.transparent-padding > * {
+  background-color: transparent; /* Esto hace que el fondo dentro del padding sea transparente */
 }
