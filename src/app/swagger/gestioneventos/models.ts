@@ -11,4 +11,6 @@ export { InformacionEvento } from './models/informacion-evento';
 export { InscribirEventoRequest } from './models/inscribir-evento-request';
 export { InscripcionesEvt } from './models/inscripciones-evt';
 export { LoginRequest } from './models/login-request';
+export { UsuarioConsulta } from './models/usuario-consulta';
+export { UsuarioGestionEventos } from './models/usuario-gestion-eventos';
 export { UsuariosDatosGenerales } from './models/usuarios-datos-generales';

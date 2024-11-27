@@ -1,9 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CarruselComponent } from '../../carrusel/carrusel.component';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { CarruselComponent } from '../../carrusel/carrusel.component';
+import { CommonModule } from '@angular/common';
+import { ServiciogestioneventosService } from '../../servicios/serviciogestioneventos.service';
+import { UsuarioConsulta, UsuarioGestionEventos } from '../../swagger/gestioneventos/models';
 
 @Component({
   selector: 'app-loginusuario',
@@ -20,10 +22,11 @@ export class LoginusuarioComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient, // Importamos HttpClient para manejar las solicitudes
-    private router: Router // Router para redirigir después del login
+    private http: HttpClient,
+    private router: Router,
+    private serviciogestion:ServiciogestioneventosService
   ) {}
-
+ idusaurio:number=0;
   ngOnInit(): void {
     this.initializeForm();
   }
@@ -32,10 +35,7 @@ export class LoginusuarioComponent implements OnInit {
     this.authForm = this.fb.group(
       {
         usuario: ['', [Validators.required, Validators.minLength(3)]],
-        email: [
-          '',
-          this.isRegisterMode ? [Validators.required, Validators.email] : [],
-        ],
+        email: ['', this.isRegisterMode ? [Validators.required, Validators.email] : []],
         clave: ['', [Validators.required, Validators.minLength(6)]],
         confirmarClave: ['']
       },
@@ -65,38 +65,37 @@ export class LoginusuarioComponent implements OnInit {
     }
   }
 
-  login(): void {
-    const { usuario, clave } = this.authForm.value;
+  async login() {
+   let usuarioConsulta:UsuarioConsulta={};
 
-    this.http.post<{ token: string }>('http://tu-api-url.com/api/auth/login', { usuario, clave })
-      .subscribe({
-        next: (response) => {
-          localStorage.setItem('authToken', response.token); // Guardar el token
-          console.log('Token recibido:', response.token);
-          this.router.navigate(['/dashboard']); // Redirigir al usuario
-        },
-        error: (error) => {
-          console.error('Error en el login:', error);
-          this.errorMessage = 'Usuario o clave incorrectos.';
-        }
-      });
+   usuarioConsulta.claveUsuario = this.authForm.get('clave')?.value;
+   usuarioConsulta.correo_Usuario = this.authForm.get('usuario')?.value;
+  let valor= await this.serviciogestion.ValidarUsuario(usuarioConsulta);
+    if(valor=="Usuario no registrado"){
+      alert("Error usuario");
+      window.location.reload();
+    }else{
+
+      alert("Bienvenido");
+      localStorage.setItem("idusuario",valor!.toString())
+      this.router.navigate(['/listar']);
+    }
+
   }
 
-  register(): void {
+ async register() {
     const { usuario, email, clave } = this.authForm.value;
 
-    this.http.post('http://tu-api-url.com/api/auth/register', { usuario, email, clave })
-      .subscribe({
-        next: () => {
-          console.log('Registro exitoso.');
-          this.isRegisterMode = false; // Cambiar al modo de inicio de sesión
-          this.errorMessage = 'Usuario registrado correctamente. Inicia sesión.';
-        },
-        error: (error) => {
-          console.error('Error en el registro:', error);
-          this.errorMessage = 'No se pudo completar el registro.';
-        }
-      });
+   let usuarioGestionEventos:UsuarioGestionEventos ={};
+   usuarioGestionEventos.claveUsuario = this.authForm.get('clave')?.value;
+   usuarioGestionEventos.cnameUsuario="";
+   usuarioGestionEventos.correo_Usuario=this.authForm.get('email')?.value;
+   usuarioGestionEventos.nombre_Usuario=this.authForm.get('usuario')?.value;
+   usuarioGestionEventos.estado =true;
+   usuarioGestionEventos.usuarioCreacion =1;
+
+      await this.serviciogestion.RegistrarUsuario(usuarioGestionEventos);
+      window.location.reload();
   }
 
   passwordMatchValidator(form: FormGroup): { [key: string]: boolean } | null {

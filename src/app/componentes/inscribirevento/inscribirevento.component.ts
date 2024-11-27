@@ -49,7 +49,7 @@ export class InscribireventoComponent {
       fechaHora: evento.fechaHora,
       ubicacion: evento.ubicacion,
       capacidadMaxima: evento.capacidadMaxima,
-      idUsuario: evento.idUsuario
+      idUsuario:Number(localStorage.getItem("idusuario"))
     });
 
     this.eventoForm.get('nombre')?.disable();
@@ -68,9 +68,9 @@ ngOnInit(): void {
     const idEvento = queryParams['idEvento'];
     const idUsuario = queryParams['idUsuario'];
     const proceso = queryParams['proceso'];
-
+    this.eventoForm.get('idUsuario')?.patchValue(localStorage.getItem("idusuario")?.toString())
     this.idevento = idEvento;
-
+    this.eventoForm.get('idUsuario')?.disable();
     console.log(`ID Evento: ${idEvento}, ID Usuario: ${idUsuario}, Proceso: ${proceso}`);
 
 

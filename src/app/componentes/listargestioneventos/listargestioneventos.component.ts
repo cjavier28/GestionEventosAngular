@@ -46,6 +46,7 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
   pageSize: number = 5;
   pageSizeOptions: number[] = [5, 10, 20]; // Opciones de tamaño de página
   idusuario:number=2;
+
   eventosgraficos: any[] = [];
   chart: any;  // Variable para almacenar la instancia del gráfico
 
@@ -58,7 +59,10 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
 
   async ngOnInit(): Promise<void> {
     await this.loadEvents(); // Cargar eventos en el inicio
-  }
+
+    this.idusuario = Number(localStorage.getItem("idusuario"));
+    console.log(this.idusuario);
+   }
 
   ngAfterViewInit(): void {
     this.eventos.sort = this.sort;

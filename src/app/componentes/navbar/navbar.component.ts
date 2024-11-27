@@ -22,7 +22,9 @@ export class NavbarComponent {
     });
   }
 
+
   logout() {
-    this.authService.logout();
+    window.location.replace("http://localhost:4200/");
+
   }
 }

@@ -1,7 +1,8 @@
+
 import { CrearEventoRequest } from './../swagger/gestioneventos/models/crear-evento-request';
 import { Evento } from './../app/interfaces/interfaces';
-import { EliminarEventoRequest, GestionEventosEve, InformacionEvento, InscribirEventoRequest } from '../swagger/gestioneventos/models';
-import { ServicioGestionEventosService } from '../swagger/gestioneventos/services';
+import { EliminarEventoRequest, GestionEventosEve, InformacionEvento, InscribirEventoRequest, UsuarioConsulta, UsuarioGestionEventos } from '../swagger/gestioneventos/models';
+import { ServicioGestionEventosService, UserService } from '../swagger/gestioneventos/services';
 import { environment } from './../../environments/environment';
 
 import { Injectable } from '@angular/core';
@@ -12,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class ServiciogestioneventosService {
 
-  constructor(private serviciogestion:ServicioGestionEventosService) {
+  constructor(private serviciogestion:ServicioGestionEventosService, private userService:UserService) {
 
   }
 
@@ -139,7 +140,7 @@ async InscribirseEvento(inscribirEventoRequest: InscribirEventoRequest): Promise
 
 
 /**
- *
+ * Inserta Evento
  * @param crearEventoRequest
  * @returns
  */
@@ -165,7 +166,7 @@ async InscribirseEvento(inscribirEventoRequest: InscribirEventoRequest): Promise
 
 
 /**
- *
+ * Crea evento
  * @param crearEventoRequest
  * @returns
  */
@@ -186,4 +187,77 @@ async EditarEvento (crearEventoRequest:CrearEventoRequest){
     }
   )
 }
+
+/**
+ * Valida Token
+ * @param crearEventoRequest
+ * @returns
+ */
+async ValidarToken (token:string){
+  return new Promise(
+    (resolve)=>{
+      this.userService.rootUrl = environment.urlserviciogestioneventos;
+      this.userService
+       .apiUserValidarTokenGet()
+       .subscribe({
+        next:(success:boolean)=>{
+          resolve(success);
+        },
+        error:(e:any)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
+
+
+/**
+ *Registra  usuario
+ * @param crearEventoRequest
+ * @returns
+ */
+async RegistrarUsuario (usuarioGestionEventos:UsuarioGestionEventos){
+  return new Promise(
+    (resolve)=>{
+      this.userService.rootUrl = environment.urlserviciogestioneventos;
+      this.userService
+       .apiUserRegistrarusuarioPost({body: usuarioGestionEventos})
+       .subscribe({
+        next:(success:number)=>{
+          resolve(success);
+        },
+        error:(e)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
+
+
+/**
+ * Valida usuario
+ * @param crearEventoRequest
+ * @returns
+ */
+async ValidarUsuario (usuarioConsulta:UsuarioConsulta){
+  return new Promise(
+    (resolve)=>{
+      this.userService.rootUrl = environment.urlserviciogestioneventos;
+      this.userService
+       .apiUserLoginUsuarioPost({body: usuarioConsulta})
+       .subscribe({
+        next:(success)=>{
+          resolve(success);
+        },
+        error:(e)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
+
+
 }
