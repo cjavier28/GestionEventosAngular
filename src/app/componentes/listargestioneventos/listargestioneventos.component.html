@@ -1,4 +1,15 @@
 <app-carrusel></app-carrusel>
+<br>
+
+<div class=" container-properties  container mt-3 mb-5 ">
+  <div class="d-flex justify-content-center align-items-center m-lg-5  " style="height: 300px;">
+    <div >
+      <canvas #barCanvas></canvas>
+    </div>
+  </div>
+</div>
+
+
 
 <div class="container-fluid col-lg-8 col-sm-12 p-2">
   <div class="card bg-dark text-white text-center">
@@ -103,5 +114,8 @@
                  [pageSizeOptions]="pageSizeOptions"
                  (page)="onPaginateChange($event)">
   </mat-paginator>
+
+
+
 </div>
 

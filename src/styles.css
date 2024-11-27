@@ -35,6 +35,7 @@ body {
 /* Contenedor principal */
 .content-wrapper {
   display: block;  /* Definimos un contenedor de bloque */
+  opacity: 0.8!important;
 }
 
 /* Estilo del carrusel */
