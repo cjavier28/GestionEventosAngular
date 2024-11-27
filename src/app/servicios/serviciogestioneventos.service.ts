@@ -1,10 +1,11 @@
 import { CrearEventoRequest } from './../swagger/gestioneventos/models/crear-evento-request';
 import { Evento } from './../app/interfaces/interfaces';
-import { EliminarEventoRequest, GestionEventosEve } from '../swagger/gestioneventos/models';
+import { EliminarEventoRequest, GestionEventosEve, InformacionEvento, InscribirEventoRequest } from '../swagger/gestioneventos/models';
 import { ServicioGestionEventosService } from '../swagger/gestioneventos/services';
 import { environment } from './../../environments/environment';
 
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,27 @@ export class ServiciogestioneventosService {
     )
   }
 
+/**
+ *
+ * @returns
+ */
+async ObtenerInformacionEvento(idusuario:number){
+  return new Promise<Array<InformacionEvento>>(
+    (resolve)=>{
+      this.serviciogestion.rootUrl = environment.urlserviciogestioneventos;
+      this.serviciogestion
+       .apiServicioGestionEventosObtenerPost({body:idusuario})
+       .subscribe({
+        next:(success:Array<InformacionEvento>)=>{
+          resolve(success);
+        },
+        error:(e)=>{
+          resolve(e.console.error);
+        }
+       })
+    }
+  )
+}
 
 
 /**
@@ -87,6 +109,33 @@ async EliminarEventoPorId(eliminarEventoRequest: EliminarEventoRequest): Promise
     });
   });
 }
+
+
+
+
+/**
+ * Inscribe a usuario a un evento
+ * @param inscribirEventoRequest
+ * @returns
+ */
+async InscribirseEvento(inscribirEventoRequest: InscribirEventoRequest): Promise<number> {
+  return new Promise((resolve, reject) => {
+    this.serviciogestion.rootUrl = environment.urlserviciogestioneventos;
+
+    this.serviciogestion.apiServicioGestionEventosInscribirPost({
+      body: inscribirEventoRequest
+    }).subscribe({
+      next: (success:number) => {
+        resolve(success);
+      },
+      error: (e) => {
+        console.error(e);
+        reject(e);
+      }
+    });
+  });
+}
+
 
 
 /**

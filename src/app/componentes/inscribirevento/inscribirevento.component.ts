@@ -51,6 +51,11 @@ export class InscribireventoComponent {
       capacidadMaxima: evento.capacidadMaxima,
       idUsuario: evento.idUsuario
     });
+
+    this.eventoForm.get('nombre')?.disable();
+    this.eventoForm.get('descripcion')?.disable();
+    this.eventoForm.get('idUsuario')?.disable();
+
   } catch (error) {
     console.error('Error al cargar el evento:', error);
   }

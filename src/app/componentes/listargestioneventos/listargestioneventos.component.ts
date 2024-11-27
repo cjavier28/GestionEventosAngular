@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { GestionEventosEve } from '../../swagger/gestioneventos/models';
+import { GestionEventosEve, InformacionEvento, InscribirEventoRequest } from '../../swagger/gestioneventos/models';
 import { ServiciogestioneventosService } from '../../servicios/serviciogestioneventos.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -11,6 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     MatPaginatorModule,
     CarruselComponent,
     MatSnackBarModule,
+    MatIconModule
 
   ],
   templateUrl: './listargestioneventos.component.html',
@@ -36,12 +38,12 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   eventos: MatTableDataSource<GestionEventosEve> = new MatTableDataSource();
-  displayedColumns: string[] = ['idEvento', 'nombre', 'descripcion', 'estado', 'fechaCreacion', 'acciones'];
+  displayedColumns:   string[] = ['idEvento', 'nombre', 'descripcion', 'estado', 'totalusuarios','capacidadmaxima', 'ubicacion', 'fechaCreacion','acciones','inscripcion',"detalle"];
   eventosData: GestionEventosEve[] = [];
   cantidadregistro: number = 0;
   pageSize: number = 5;
   pageSizeOptions: number[] = [5, 10, 20]; // Opciones de tamaño de página
-
+  idusuario:number=2;
   constructor(
     private gestionEventosService: ServiciogestioneventosService,
     private router: Router,
@@ -61,7 +63,7 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
   // Método para cargar eventos
   async loadEvents(): Promise<void> {
     try {
-      this.eventosData = await this.gestionEventosService.ObtenerGestionEventos();
+      this.eventosData = await this.gestionEventosService.ObtenerInformacionEvento(this.idusuario);
       this.eventos.data = this.eventosData;
       this.cantidadregistro = this.eventosData.length;
       this.cdr.detectChanges();  // Asegura que Angular detecte los cambios correctamente
@@ -74,7 +76,7 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
   // Método para mostrar notificaciones
   mostrarNotificacion(mensaje: string, accion: string = 'Cerrar') {
     this.snackBar.open(mensaje, accion, {
-      duration: 3000, // Duración en milisegundos
+      duration: 6000, // Duración en milisegundos
       horizontalPosition: 'center',
       verticalPosition: 'top',
     });
@@ -103,8 +105,8 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
   }
 
   // Método para eliminar un evento
-  async eliminarEvento(evento: GestionEventosEve): Promise<void> {
-    if (confirm(`¿Está seguro de que desea eliminar el evento "${evento.nombre}"?`)) {
+  async eliminarEvento(evento: InformacionEvento): Promise<void> {
+    if (confirm(`¿Está seguro de que desea eliminar el evento "${evento.nombreEvento}"?`)) {
       try {
         await this.gestionEventosService.EliminarEventoPorId({ idEvento: evento.idEvento, idUsuario: evento.idUsuario });
         const index = this.eventosData.findIndex(e => e.idEvento === evento.idEvento);
@@ -124,6 +126,25 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
   // Método para inscribir
   async inscribir() {
     this.router.navigate(['/inscribir']);
+  }
+
+
+  async InscribirEventoUsuario(evento:InformacionEvento){
+
+    let inscribirEventoRequest:InscribirEventoRequest={};
+
+    inscribirEventoRequest.idEvento = evento.idEvento;
+    inscribirEventoRequest.idUsuario=this.idusuario;
+
+
+    let respuesta:number= await this.gestionEventosService.InscribirseEvento(inscribirEventoRequest);
+    console.log(respuesta);
+ if(respuesta>0){
+      this.mostrarNotificacion("Ha quedado inscrito exitosamente!!")
+    }else{
+      this.mostrarNotificacion("Usted ya esta inscrito, es titular o se superaron el máximo de inscripciones");
+    }
+    await this.loadEvents();
   }
 
   // Método para actualizar el pageSize desde el dropdown

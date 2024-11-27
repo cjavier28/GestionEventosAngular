@@ -7,6 +7,7 @@ export { EditarEventoRequest } from './models/editar-evento-request';
 export { EliminarEventoRequest } from './models/eliminar-evento-request';
 export { GestionEventosEve } from './models/gestion-eventos-eve';
 export { HistorialModificacionEve } from './models/historial-modificacion-eve';
+export { InformacionEvento } from './models/informacion-evento';
 export { InscribirEventoRequest } from './models/inscribir-evento-request';
 export { InscripcionesEvt } from './models/inscripciones-evt';
 export { LoginRequest } from './models/login-request';

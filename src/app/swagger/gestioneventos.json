@@ -1,3 +1,5 @@
+
+
 {
   "openapi": "3.0.1",
   "info": {
@@ -124,7 +126,59 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ServicioGestionEventos/obtener": {
+      "post": {
+        "tags": [
+          "ServicioGestionEventos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InformacionEvento"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -406,6 +460,51 @@
           },
           "idUsuarioNavigation": {
             "$ref": "#/components/schemas/UsuariosDatosGenerales"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InformacionEvento": {
+        "type": "object",
+        "properties": {
+          "idEvento": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreEvento": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaHora": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ubicacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "capacidadMaxima": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estadoEvento": {
+            "type": "boolean"
+          },
+          "totalUsuarios": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idUsuario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estaInscrito": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
