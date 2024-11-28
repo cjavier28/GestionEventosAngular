@@ -1,3 +1,5 @@
+
+
 <app-carrusel></app-carrusel>
 <br>
 
@@ -8,10 +10,20 @@
       </div>
     </div>
   </div>
+  <div class="form-group col-8 text-center  d-flex">
+    <div>
+      <select (change)="onViewChange($event)" class="form-control">
+        <option value="dayGridMonth">Mes</option>
+        <option value="dayGridWeek">Semana</option>
+        <option value="dayGridDay">Día</option>
+        <option value="listWeek">Lista de Semana</option>  <!-- Vista en lista de semana -->
+      </select>
+    </div>
+
+  </div>
 
 
-
-
+  <full-calendar [options]="calendarOptions"></full-calendar>
 
 <div class="container-fluid col-lg-8 col-sm-12 p-2">
   <div class="card bg-dark text-white text-center">
@@ -116,6 +128,7 @@
                  [pageSizeOptions]="pageSizeOptions"
                  (page)="onPaginateChange($event)">
   </mat-paginator>
+
 
 
 

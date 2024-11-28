@@ -17,7 +17,7 @@ export interface GestionEventosEve {
   idUsuario?: number;
   idUsuarioNavigation?: UsuariosDatosGenerales;
   inscripcionesEvts?: Array<InscripcionesEvt> | null;
-  nombre?: string | null;
+  nombreEvento?: string | null;
   ubicacion?: string | null;
   usuarioActualizacion?: number | null;
   usuarioCreacion?: number;

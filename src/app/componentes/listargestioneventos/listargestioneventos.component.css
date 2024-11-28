@@ -51,3 +51,25 @@
 .transparent-padding > * {
   background-color: transparent; /* Esto hace que el fondo dentro del padding sea transparente */
 }
+
+
+full-calendar {
+  max-width: 900px;
+  margin: 0 auto;
+
+  background-color: rgba(255, 255, 255, 0.938);
+  border-radius: 12px; /* Bordes redondeados */
+  padding: 20px; /* Espaciado interno */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+.fc-list-item {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.fc-list-item:hover {
+  background-color: #e0e0e0;
+}
