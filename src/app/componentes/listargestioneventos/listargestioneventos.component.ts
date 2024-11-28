@@ -50,21 +50,7 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('barCanvas', { static: true }) barCanvas!: ElementRef<HTMLCanvasElement>;
 
-  calendarOptions = {
-    initialView: 'dayGridMonth',
-    plugins: [DayGridPlugin],
-    locale: 'es',  // Establecer el idioma en español// Aquí se agrega el plugin DayGrid
-    events: [
-      {
-        title: 'Conferencia de Tecnología',
-        start: '2025-01-03T09:00:00',
-        description: 'Evento sobre las últimas innovaciones en tecnología',
-        location: '3DAD X33',
-      },
-      // Otros eventos...
-    ],
-    eventClick: this.handleEventClick, // Manejador de clic en evento
-  };
+
 
 
   handleEventClick(info: any) {
@@ -92,45 +78,43 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
   async ngOnInit(): Promise<void> {
     await this.loadEvents();
     console.table(this.eventosData);
-    this.events = this.eventosData.map(evento => ({
-      title: evento.nombreEvento,
-      start: evento.fechaHora,
-      description: evento.descripcion,
-      location: evento.ubicacion,
-      // Puedes agregar más propiedades según tu respuesta de API
-    }));
-     // Ahora pasamos los eventos a la configuración del calendario
-     this.calendarOptions = {
-     // initialView: 'dayGridMonth',
+    let calendarOptions = {
       initialView: 'dayGridMonth',
-      plugins: [dayGridPlugin, interactionPlugin, listPlugin],  // Usar DayGridPlugin
-      locale: 'es',  // Establecer el idioma en español
-      events: this.events,  // Asignar los eventos obtenidos de la API
+      plugins: [DayGridPlugin],
+      locale: 'es',  // Establecer el idioma en español// Aquí se agrega el plugin DayGrid
+      events: [
+        {
+          title: 'Conferencia de Tecnología',
+          start: '2025-01-03T09:00:00',
+          description: 'Evento sobre las últimas innovaciones en tecnología',
+          location: '3DAD X33',
+        },
+        // Otros eventos...
+      ],
       eventClick: this.handleEventClick, // Manejador de clic en evento
     };
-
 
     this.idusuario = Number(localStorage.getItem("idusuario"));
     console.log(this.idusuario);
    }
+
+
+   calendarOptions = {
+    // initialView: 'dayGridMonth',
+     initialView: 'dayGridMonth',
+     plugins: [dayGridPlugin, interactionPlugin, listPlugin],  // Usar DayGridPlugin
+     locale: 'es',  // Establecer el idioma en español
+     events: this.events,  // Asignar los eventos obtenidos de la API
+     eventClick: this.handleEventClick, // Manejador de clic en evento
+   };
+
 
   ngAfterViewInit(): void {
     this.eventos.sort = this.sort;
     this.eventos.paginator = this.paginator;
   }
   onViewChange(event: any): void {
-    const selectedView = event.target.value;  // Obtener el valor seleccionado
-
-    // Cambiar la vista de FullCalendar según la opción seleccionada
-    this.calendarOptions.initialView = selectedView;
-    this.calendarOptions.initialView='dayGridWeek';
-
-    // Forzar que FullCalendar se vuelva a renderizar
-    this.calendarOptions = { ...this.calendarOptions };  // Esto forzará a Angular a reconocer el cambio
-
-    // Después de actualizar las opciones, actualizar el calendario manualmente
-    // Recarga los eventos o simplemente vuelve a renderizar el calendario
-    this.cdr.detectChanges();  // Asegura que Angular detecte el cambio
+      this.cdr.detectChanges();
   }
   renderChart(eventos: any[]): void {
     const labels = eventos.map((evento) => evento.nombreEvento);
@@ -190,21 +174,33 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
     });
   }
 
-
-  // Método para cargar eventos
   async loadEvents(): Promise<void> {
     try {
       this.eventosData = await this.gestionEventosService.ObtenerInformacionEvento(this.idusuario);
       this.eventos.data = this.eventosData;
-      this.eventosgraficos =this.eventosData ;
+      this.eventosgraficos = this.eventosData;
       this.renderChart(this.eventosgraficos);
       this.cantidadregistro = this.eventosData.length;
-      this.cdr.detectChanges();  // Asegura que Angular detecte los cambios correctamente
+
+      // Aquí transformamos los eventos de la API para que tengan el formato que FullCalendar espera
+      this.events = this.eventosData.map(evento => ({
+        title: evento.nombreEvento,
+        start: evento.fechaHora,
+        description: evento.descripcion,
+        location: evento.ubicacion
+      }));
+
+      // Actualizamos las opciones del calendario con los eventos
+      this.calendarOptions.events = this.events;
+
+      // Asegura que Angular detecte los cambios correctamente
+      this.cdr.detectChanges();
     } catch (error) {
       console.error('Error al cargar los eventos:', error);
       this.mostrarNotificacion('Error al cargar los eventos', 'Cerrar');
     }
   }
+
 
   // Método para mostrar notificaciones
   mostrarNotificacion(mensaje: string, accion: string = 'Cerrar') {
@@ -260,7 +256,6 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
         }
         this.mostrarNotificacion('Evento eliminado exitosamente');
         this.loadEvents();
-        this.cdr.detectChanges();  // Fuerza la actualización de la vista
 
       } catch (error) {
         console.error('Error al eliminar evento:', error);
@@ -291,13 +286,7 @@ export class ListargestioneventosComponent implements OnInit, AfterViewInit {
       this.mostrarNotificacion("Usted ya esta inscrito, es titular o se superaron el máximo de inscripciones");
     }
     await this.loadEvents();
-    this.cdr.detectChanges();  // Detecta cambios en Angular
 
-
-  if (this.calendarOptions && this.calendarOptions.events) {
-    this.calendarOptions.events = [...this.events];  // Asegura que los eventos estén actualizados
-    this.cdr.detectChanges();  // Vuelve a detectar cambios en Angular
-  }
   }
 
   // Método para actualizar el pageSize desde el dropdown
